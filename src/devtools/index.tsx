@@ -1,4 +1,4 @@
-import Devtools from '@src/devtools/Devtools';
+import Devtools, { pinTab } from '@src/devtools/Devtools';
 import { initElement } from '@src/main';
 
 const bootstrap = () => {
@@ -6,7 +6,11 @@ const bootstrap = () => {
     chrome.devtools.panels.create(
       'My new Dev Tools panel',
       'src/devtools/icon-34.png',
-      'src/devtools/index.html'
+      'src/devtools/index.html',
+      (panel: chrome.devtools.panels.ExtensionPanel) => {
+        console.log({ panel });
+        panel.onShown.addListener(pinTab);
+      }
     );
   } catch (e) {
     console.error(e);
